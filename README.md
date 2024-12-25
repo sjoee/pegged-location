@@ -2,9 +2,9 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Try It On
 
-🔗 **Website:**
-🔗 **Bot on Telegram:**
-🔗 **Web App on Telegram:**
+🔗 **Website:** [https://pegged-location.vercel.app](https://pegged-location.vercel.app)  
+🔗 **Bot on Telegram:** [https://t.me/PeggedLocationBot/myapp](https://t.me/PeggedLocationBot/myapp)  
+🔗 **Web App on Telegram:** [https://t.me/PeggedLocationBot/twRPS](https://t.me/PeggedLocationBot/twRPS)
 
 ## Getting Started
 
