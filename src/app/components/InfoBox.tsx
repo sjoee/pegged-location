@@ -2,7 +2,7 @@
 
 export default function InfoBox() {
   return (
-    <div className="max-w-2xl mx-auto px-4 py-8">
+    <div className="max-w-2xl mx-auto px-4 pt-8 pb-20">
       <section className="mb-10">
         <h1 className="text-2xl font-bold text-center mb-4 text-primary">
           About Us
