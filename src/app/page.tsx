@@ -1,11 +1,9 @@
-// app/page.tsx
-
-import DisplayUser from "./components/DisplayUser";
+import HomePage from "./components/HomePage";
 
 export default function Home() {
   return (
     <div>
-      <DisplayUser />
+      <HomePage />
     </div>
   );
 }
