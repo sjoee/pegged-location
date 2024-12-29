@@ -16,9 +16,10 @@ export default function InfoBox() {
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-white rounded-lg shadow p-4">
             <h2 className="text-lg font-semibold text-primary">Why Us</h2>
-            <p className="text-sm  ">
-              Experience seamless dining suggestions that cater to your
-              preferences and location.
+            <p className="text-sm">
+              Experience the convenience of tailored dining suggestions that
+              intuitively adapt to your location and tastes, bringing you closer
+              to your next favorite meal.
             </p>
           </div>
           <div className="bg-white rounded-lg shadow p-4">
@@ -33,20 +34,26 @@ export default function InfoBox() {
               Getting Started
             </h2>
             <p className="text-sm  ">
-              Quick setup with step-by-step guidance to begin receiving
-              personalized suggestions.
+              Quick setup with step-by-step guidance to begin supprizes
+              suggestions.
             </p>
           </div>
         </div>
       </section>
       <section>
         <h1 className="text-2xl font-bold mb-4 text-start text-primary">
-          How to Use
+          How to Try The Magic
         </h1>
         <ol className="list-decimal list-inside text-start  ">
-          <li>Input your current location into our Telegram bot.</li>
-          <li>Receive a list of nearby dining options instantly.</li>
-          <li>Select the best spot and enjoy your meal!</li>
+          <li>
+            Let our Telegram bot know where you are, and it will take care of
+            the rest.
+          </li>
+          <li>
+            Like a culinary treasure hunt, you will receive a surprise list of
+            nearby restaurants—each option a hidden gem ready to be explored.
+          </li>
+          <li>Head over there, and savor the magic of a great meal!</li>
         </ol>
       </section>
     </div>

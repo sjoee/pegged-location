@@ -7,6 +7,12 @@ const historyData = [
 export default function HistoryBox() {
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
+      <h1 className="text-2xl font-bold text-primary mb-4">History </h1>
+      {/* <p>
+        Ever wonder where you ate last Tuesday? Our History Page is like a diary
+        for your stomach, keeping track of all your foodie adventures!
+      </p> */}
+
       <div className="overflow-x-auto bg-white shadow-md rounded-lg">
         <table className="min-w-full leading-normal">
           <thead>
