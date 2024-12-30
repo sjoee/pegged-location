@@ -1,10 +1,10 @@
 "use client";
 
-// import Link from "next/link";
-// import { useAuth } from "../context/AuthContext";
+import Link from "next/link";
+import { useAuth } from "../context/AuthContext";
 
 export default function DisplayUser() {
-  // const { userID, username, windowHeight } = useAuth();
+  const { userID, username, windowHeight } = useAuth();
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-8 flex flex-col items-center justify-center min-h-screen text-center space-y-4">
@@ -18,7 +18,7 @@ export default function DisplayUser() {
 
       {/* <Link href="/info"> */}
       <div className="mt-4 py-2 px-4 border-2 border-primary bg-primary text-white rounded-full hover:bg-primaryDark transition duration-150 ease-in-out">
-        Connect Wallet
+        <button>Connect Wallet</button>
       </div>
       {/* </Link> */}
       {/* <Link href="/function">
