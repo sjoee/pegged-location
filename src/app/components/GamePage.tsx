@@ -1,19 +1,85 @@
-// pages/function.tsx
 import { useState } from "react";
 import Image from "next/image";
 
-export default function GamePage() {
-  const [input, setInput] = useState("");
+interface Location {
+  id: number;
+  name: string;
+  google_link: string;
+}
 
+interface ModalProps {
+  location: Location;
+  onClose: () => void;
+}
+
+const locations: Location[] = [
+  {
+    id: 1,
+    name: "Pizzeria Locale",
+    google_link: "https://maps.google.com/?q=Pizzeria+Locale",
+  },
+  {
+    id: 2,
+    name: "Sushi Ai",
+    google_link: "https://maps.google.com/?q=Sushi+Ai",
+  },
+  {
+    id: 3,
+    name: "Curry House",
+    google_link: "https://maps.google.com/?q=Curry+House",
+  },
+];
+
+// Modal component for displaying location details
+const Modal: React.FC<ModalProps> = ({ location, onClose }) => (
+  <div className="absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center">
+    <div className="bg-white p-4 rounded-lg shadow-xl">
+      <h2 className="font-bold">{location.name}</h2>
+      <p>
+        <a
+          href={location.google_link}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          More about this place
+        </a>
+      </p>
+      <div className="gap-2 flex">
+        <button
+          onClick={() => window.open(location.google_link, "_blank")}
+          className="mt-4 py-2 px-4 border-2 border-primary bg-primary text-white rounded-full hover:bg-primaryDark transition duration-150 ease-in-out"
+        >
+          Share Location
+        </button>
+        <button
+          onClick={onClose}
+          className="mt-4 py-2 px-4 border-2 border-primary text-primary rounded-full hover:bg-gray-200 transition duration-150 ease-in-out"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+);
+
+export default function GamePage() {
+  const [input, setInput] = useState<string>("");
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [selectedLocation, setSelectedLocation] = useState<Location | null>(
+    null
+  ); // Correct typing for useState
+
+  // Handle the form submission
   const handleSubmit = () => {
-    // Handle the submission here
-    alert(`Input Submitted: ${input}`);
+    const randomLocation =
+      locations[Math.floor(Math.random() * locations.length)];
+    setSelectedLocation(randomLocation); // Correctly set an object of type Location
+    setShowModal(true);
   };
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-8">
+    <div className="max-w-2xl mx-auto px-4 py-8 relative">
       <h1 className="text-2xl font-bold text-primary">What should I eat !!!</h1>
-
       <div className="p-4">
         <input
           type="text"
@@ -40,6 +106,12 @@ export default function GamePage() {
           objectFit="cover"
         />
       </div>
+      {showModal && selectedLocation && (
+        <Modal
+          location={selectedLocation}
+          onClose={() => setShowModal(false)}
+        />
+      )}
     </div>
   );
 }
