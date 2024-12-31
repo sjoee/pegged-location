@@ -1,11 +1,11 @@
 "use client";
 
-import Link from "next/link";
-import { useAuth } from "../context/AuthContext";
+// import Link from "next/link";
+// import { useAuth } from "../context/AuthContext";
 import Image from "next/image";
 
 export default function DisplayUser() {
-  const { userID, username, windowHeight } = useAuth();
+  // const { userID, username, windowHeight } = useAuth();
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-8 flex flex-col items-center justify-center min-h-screen text-center space-y-4">
