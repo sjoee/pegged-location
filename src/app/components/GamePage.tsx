@@ -98,22 +98,24 @@ export default function GamePageTest() {
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-8 relative">
-      <h1 className="text-2xl font-bold text-primary">Restaurant Finder</h1>
+      <h1 className="text-2xl font-bold text-primary mb-8">
+        What To Eat Today
+      </h1>
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-4">
           <input
             type="text"
-            placeholder="Enter a location"
+            placeholder="Enter your location"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             className="rounded-full border p-2 focus:border-primary focus:border-2 focus:outline-none"
           />
-          <button
+          {/* <button
             onClick={handleSubmit}
             className="py-2 px-4 ml-2 bg-primary text-white rounded-full"
           >
             Find Restaurant
-          </button>
+          </button> */}
         </div>
         <div className="w-full items-center">
           <div
