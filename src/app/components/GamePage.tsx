@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 
 interface Location {
   id: string;
   name: string;
-  google_link: string;
+  link: string;
 }
 
 interface ModalProps {
@@ -14,170 +14,133 @@ interface ModalProps {
 
 const Modal: React.FC<ModalProps> = ({ location, onClose }) => (
   <div className="absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center">
-    <div className="bg-white p-4 rounded-lg shadow-xl">
-      <h2 className="font-bold">{location.name}</h2>
-      <p>
-        <a
-          href={location.google_link}
-          target="_blank"
-          rel="noopener noreferrer"
+    <div className="bg-white p-4 rounded-lg shadow-xl w-[200px]">
+      <h1 className="text-2xl font-bold text-center mb-4 text-primary">
+        Your Surprise
+      </h1>
+      <h2 className="font-bold mb-4">{location.name}</h2>
+
+      <div className="gap-4 flex flex-row">
+        <button className="py-2 px-4 border-2 bg-primary text-white rounded-full">
+          <a href={location.link} target="_blank" rel="noopener noreferrer">
+            Map
+          </a>
+        </button>
+        <button
+          onClick={onClose}
+          className="py-2 px-4 border-2 border-primary text-primary rounded-full hover:bg-gray-200 transition duration-150 ease-in-out"
         >
-          More about this place
-        </a>
-      </p>
-      <button
-        onClick={onClose}
-        className="mt-4 py-2 px-4 border-2 border-primary text-primary rounded-full hover:bg-gray-200 transition duration-150 ease-in-out"
-      >
-        Close
-      </button>
+          Close
+        </button>
+      </div>
     </div>
   </div>
 );
 
-const loadGoogleMapsScript = (callback: () => void) => {
-  if (
-    typeof window.google === "object" &&
-    typeof window.google.maps === "object"
-  ) {
-    callback(); // If already loaded, just run the callback
-    return;
-  }
-  const existingScript = document.getElementById("google-maps-script");
-  if (existingScript) {
-    existingScript.addEventListener("load", callback); // Add callback if script already in process
-    return;
-  }
-  const script = document.createElement("script");
-  script.id = "google-maps-script";
-  script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`;
-  script.async = true;
-  script.defer = true;
-  script.onload = callback; // Set callback to run when script is loaded
-  document.head.appendChild(script);
-};
-
-export default function GamePage() {
-  const [input, setInput] = useState<string>("");
-  const [showModal, setShowModal] = useState<boolean>(false);
+export default function GamePageTest() {
+  const [input, setInput] = useState("");
+  const [showModal, setShowModal] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(
     null
   );
 
-  useEffect(() => {
-    loadGoogleMapsScript(() => {
-      console.log("Google Maps API loaded.");
-    });
-  }, []);
+  const fetchLocation = async () => {
+    const geoapifyApiKey = process.env.NEXT_PUBLIC_GEOAPIFY_API_KEY;
+    const geocodeUrl = `https://api.geoapify.com/v1/geocode/search?text=${encodeURIComponent(
+      input.trim()
+    )}&apiKey=${geoapifyApiKey}`;
 
-  const fetchNearbyPlaces = (locationInput: string) => {
-    if (!window.google || !window.google.maps) {
-      console.error("Google Maps API is not available.");
-      return;
-    }
+    try {
+      // Step 1: Geocode the input location
+      const geocodeResponse = await fetch(geocodeUrl);
+      const geocodeData = await geocodeResponse.json();
 
-    // Check if geolocation is available and use it
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const location = new window.google.maps.LatLng(
-            position.coords.latitude,
-            position.coords.longitude
+      if (geocodeData.features.length > 0) {
+        const coordinates = geocodeData.features[0].geometry.coordinates;
+
+        // Step 2: Search for nearby restaurants
+        const placesUrl = `https://api.geoapify.com/v2/places?categories=catering.restaurant&filter=circle:${coordinates[0]},${coordinates[1]},10000&limit=20&apiKey=${geoapifyApiKey}`;
+        const placesResponse = await fetch(placesUrl);
+        const placesData = await placesResponse.json();
+
+        if (placesData.features.length > 0) {
+          // Step 3: Randomly select a restaurant
+          const randomIndex = Math.floor(
+            Math.random() * placesData.features.length
           );
-
-          const service = new window.google.maps.places.PlacesService(
-            document.createElement("div")
-          );
-          const request = {
-            query: locationInput,
-            location: location,
-            radius: 10000,
-            type: "restaurant",
+          const randomPlace = placesData.features[randomIndex];
+          const chosenLocation: Location = {
+            id: randomPlace.properties.place_id,
+            name: randomPlace.properties.name || "Unnamed Restaurant",
+            link: `https://maps.geoapify.com/v1/staticmap?style=osm-bright&width=600&height=400&center=lonlat:${randomPlace.geometry.coordinates[0]},${randomPlace.geometry.coordinates[1]}&zoom=14&marker=lonlat:${randomPlace.geometry.coordinates[0]},${randomPlace.geometry.coordinates[1]};type:awesome;color:%23ff3333;size:large&apiKey=${geoapifyApiKey}`,
           };
 
-          service.textSearch(request, (results, status) => {
-            if (
-              status === window.google.maps.places.PlacesServiceStatus.OK &&
-              results
-            ) {
-              const randomIndex = Math.floor(Math.random() * results.length);
-              const place = results[randomIndex];
-              const newLocation = {
-                id: place.place_id || "",
-                name: place.name || "",
-                google_link: `https://maps.google.com/?q=${place.formatted_address}`,
-              };
-              setSelectedLocation(newLocation);
-              setShowModal(true);
-            } else {
-              console.error("Failed to fetch places:", status);
-            }
-          });
-        },
-        (error) => {
-          console.error("Error fetching geolocation:", error);
+          setSelectedLocation(chosenLocation);
+          setShowModal(true);
+        } else {
+          alert("No restaurants found within 10 km.");
         }
-      );
-    } else {
-      console.error("Geolocation is not supported by this browser.");
+      } else {
+        alert("Location not found.");
+      }
+    } catch (err) {
+      console.error("Error fetching location:", err);
     }
   };
 
   const handleSubmit = () => {
-    if (input.trim()) {
-      fetchNearbyPlaces(input);
+    if (!input.trim()) {
+      alert("Please enter a location.");
+      return;
     }
+    fetchLocation();
   };
 
   return (
-    <>
-      <div className="max-w-2xl mx-auto px-4 py-8 relative">
-        <h1 className="text-2xl font-bold text-primary">
-          What should I eat !!!
-        </h1>
+    <div className="max-w-2xl mx-auto px-4 py-8 relative">
+      <h1 className="text-2xl font-bold text-primary">Restaurant Finder</h1>
+      <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-4">
-          <div className="p-4">
-            <input
-              type="text"
-              placeholder="Your Location"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              className="rounded-full border p-2 focus:border-primary focus:border-2 focus:outline-none"
+          <input
+            type="text"
+            placeholder="Enter a location"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            className="rounded-full border p-2 focus:border-primary focus:border-2 focus:outline-none"
+          />
+          <button
+            onClick={handleSubmit}
+            className="py-2 px-4 ml-2 bg-primary text-white rounded-full"
+          >
+            Find Restaurant
+          </button>
+        </div>
+        <div className="w-full items-center">
+          <div
+            onClick={handleSubmit}
+            className="inline-block ml-2 cursor-pointer"
+            style={{
+              position: "relative",
+              width: 200,
+              height: 200,
+              objectFit: "contain",
+            }}
+          >
+            <Image
+              src="/red-button.png"
+              alt="Submit"
+              layout="fill"
+              objectFit="cover"
             />
-            <button
-              onClick={handleSubmit}
-              className="py-2 px-4 ml-2 bg-primary text-white rounded-full"
-            >
-              Find Food
-            </button>
-          </div>
-          <div className="w-full items-center">
-            <div
-              onClick={handleSubmit}
-              className="inline-block ml-2 cursor-pointer "
-              style={{
-                position: "relative",
-                width: 200,
-                height: 200,
-                objectFit: "contain",
-              }}
-            >
-              <Image
-                src="/red-button.png"
-                alt="Submit"
-                layout="fill"
-                objectFit="cover"
-              />
-            </div>
           </div>
         </div>
-        {showModal && selectedLocation && (
-          <Modal
-            location={selectedLocation}
-            onClose={() => setShowModal(false)}
-          />
-        )}
-      </div>{" "}
-    </>
+      </div>
+      {showModal && selectedLocation && (
+        <Modal
+          location={selectedLocation}
+          onClose={() => setShowModal(false)}
+        />
+      )}
+    </div>
   );
 }
