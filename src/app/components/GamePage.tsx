@@ -8,8 +8,9 @@ interface Location {
 }
 
 interface ModalProps {
-  location: Location;
+  location?: Location;
   onClose: () => void;
+  title?: string;
 }
 
 const Modal: React.FC<ModalProps> = ({ location, onClose }) => (
@@ -18,11 +19,11 @@ const Modal: React.FC<ModalProps> = ({ location, onClose }) => (
       <h1 className="text-2xl font-bold text-center mb-4 text-primary">
         Your Surprise
       </h1>
-      <h2 className="font-bold mb-4">{location.name}</h2>
+      <h2 className="font-bold mb-4">{location?.name}</h2>
 
       <div className="gap-4 flex flex-row">
         <button className="py-2 px-4 border-2 bg-primary text-white rounded-full">
-          <a href={location.link} target="_blank" rel="noopener noreferrer">
+          <a href={location?.link} target="_blank" rel="noopener noreferrer">
             Map
           </a>
         </button>
@@ -37,9 +38,25 @@ const Modal: React.FC<ModalProps> = ({ location, onClose }) => (
   </div>
 );
 
+const AlertBox: React.FC<ModalProps> = ({ title, onClose }) => (
+  <div className="absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center">
+    <div className="bg-white p-4 rounded-lg shadow-xl w-[200px]">
+      <h2 className="font-bold mb-4">{title}</h2>
+      <button
+        onClick={onClose}
+        className="py-2 px-4 border-2 border-primary text-primary rounded-full hover:bg-gray-200 transition duration-150 ease-in-out"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+);
+
 export default function GamePage() {
   const [input, setInput] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [showAlertBox, setShowAlertBox] = useState(false);
+  const [showAlertBoxOutLocation, setShowAlertBoxOutLocation] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(
     null
   );
@@ -78,13 +95,13 @@ export default function GamePage() {
           setSelectedLocation(chosenLocation);
           setShowModal(true);
         } else {
-          alert("No restaurants found within 10 km.");
+          setShowAlertBoxOutLocation(true);
         }
       } else {
-        alert("Location not found.");
+        setShowAlertBox(true);
       }
-    } catch (err) {
-      console.error("Error fetching location:", err);
+    } catch {
+      // console.error("Error fetching location:", err);
     }
   };
 
@@ -142,6 +159,18 @@ export default function GamePage() {
         <Modal
           location={selectedLocation}
           onClose={() => setShowModal(false)}
+        />
+      )}
+      {showAlertBox && (
+        <AlertBox
+          title="Location not found."
+          onClose={() => setShowAlertBox(false)}
+        />
+      )}
+      {showAlertBoxOutLocation && (
+        <AlertBox
+          title="No restaurants found within 10 km."
+          onClose={() => setShowAlertBoxOutLocation(false)}
         />
       )}
     </div>
