@@ -25,8 +25,9 @@ export default function InfoBox() {
           <div className="bg-white rounded-lg shadow p-4">
             <h2 className="text-lg font-semibold text-primary">Our Benefits</h2>
             <p className="text-sm  ">
-              Save time, explore new dining spots, and enjoy stress-free meal
-              planning.
+              Save time, discover new dining spots, and enjoy meal planning with
+              On-Chain Mode for secure blockchain storage or Privacy Mode for no
+              data storage at all.
             </p>
           </div>
           <div className="bg-white rounded-lg shadow p-4">

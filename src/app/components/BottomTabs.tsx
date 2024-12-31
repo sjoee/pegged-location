@@ -9,8 +9,8 @@ interface BottomTabsProps {
 const BottomTabs: React.FC<BottomTabsProps> = ({ activeTab, setActiveTab }) => {
   const tabs = [
     { id: "home", label: "Home", icon: "/home.svg" },
-    { id: "search", label: "Search", icon: "/game.svg" },
-    { id: "history", label: "History", icon: "/history.svg" },
+    { id: "search", label: "Private Search", icon: "/game.svg" },
+    { id: "chainSearch", label: "On-Chain Search", icon: "/history.svg" },
     { id: "about", label: "About", icon: "/about.svg" },
   ];
 

@@ -5,6 +5,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 🔗 **Website:** [https://pegged-location.vercel.app](https://pegged-location.vercel.app)  
 🔗 **Bot on Telegram:** [https://t.me/PeggedLocationBot/myapp](https://t.me/PeggedLocationBot/myapp)  
 🔗 **Web App on Telegram:** [https://t.me/PeggedLocationBot/twRPS](https://t.me/PeggedLocationBot/twRPS)
+🔗 **Flow Contract:** [https://testnet.flowdiver.io/tx/ff779e50a54ed43c639a13bc6ad2992075d88b4896da5083d1d72a4d17d5f0f2](https://testnet.flowdiver.io/tx/ff779e50a54ed43c639a13bc6ad2992075d88b4896da5083d1d72a4d17d5f0f2)
 
 ## Getting Started
 

@@ -3,9 +3,9 @@
 import BottomTabs from "./BottomTabs";
 import { useState } from "react";
 import InfoBox from "./InfoBox";
-import HistoryBox from "./HistoryBox";
 import GamePage from "./GamePage";
 import DisplayUser from "./DisplayUser";
+import GamePageTest from "./GamePageTest";
 
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState("home");
@@ -16,8 +16,8 @@ export default function HomePage() {
         return <DisplayUser />;
       case "search":
         return <GamePage />;
-      case "history":
-        return <HistoryBox />;
+      case "chainSearch":
+        return <GamePageTest />;
       case "about":
         return <InfoBox />;
       default:

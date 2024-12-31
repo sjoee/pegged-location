@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Image from "next/image";
+import * as fcl from "@onflow/fcl";
 
 interface Location {
   id: string;
@@ -8,8 +9,9 @@ interface Location {
 }
 
 interface ModalProps {
-  location: Location;
+  location?: Location;
   onClose: () => void;
+  title?: string;
 }
 
 const Modal: React.FC<ModalProps> = ({ location, onClose }) => (
@@ -18,11 +20,11 @@ const Modal: React.FC<ModalProps> = ({ location, onClose }) => (
       <h1 className="text-2xl font-bold text-center mb-4 text-primary">
         Your Surprise
       </h1>
-      <h2 className="font-bold mb-4">{location.name}</h2>
+      <h2 className="font-bold mb-4">{location?.name}</h2>
 
       <div className="gap-4 flex flex-row">
         <button className="py-2 px-4 border-2 bg-primary text-white rounded-full">
-          <a href={location.link} target="_blank" rel="noopener noreferrer">
+          <a href={location?.link} target="_blank" rel="noopener noreferrer">
             Map
           </a>
         </button>
@@ -37,9 +39,36 @@ const Modal: React.FC<ModalProps> = ({ location, onClose }) => (
   </div>
 );
 
-export default function GamePage() {
+const AlertBox: React.FC<ModalProps> = ({ title, onClose }) => (
+  <div className="absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center">
+    <div className="bg-white p-4 rounded-lg shadow-xl w-[200px]">
+      <h2 className="font-bold mb-4">{title}</h2>
+      <button
+        onClick={onClose}
+        className="py-2 px-4 border-2 border-primary text-primary rounded-full hover:bg-gray-200 transition duration-150 ease-in-out"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+);
+
+const ADD_LOCATION_TX = `
+  import LocationLogger from 0x70dfddf67f3be06b
+
+  transaction(locationName: String, date: String) {
+    prepare(signer: &Account) {
+      LocationLogger.addLocation(signer: signer, locationName: locationName, date: date)
+    }
+  }
+`;
+
+export default function GamePageTest() {
   const [input, setInput] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [showAlertBox, setShowAlertBox] = useState(false);
+  const [showAlertBoxOutLocation, setShowAlertBoxOutLocation] = useState(false);
+
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(
     null
   );
@@ -74,33 +103,59 @@ export default function GamePage() {
             name: randomPlace.properties.name || "Unnamed Restaurant",
             link: `https://maps.geoapify.com/v1/staticmap?style=osm-bright&width=600&height=400&center=lonlat:${randomPlace.geometry.coordinates[0]},${randomPlace.geometry.coordinates[1]}&zoom=14&marker=lonlat:${randomPlace.geometry.coordinates[0]},${randomPlace.geometry.coordinates[1]};type:awesome;color:%23ff3333;size:large&apiKey=${geoapifyApiKey}`,
           };
-
           setSelectedLocation(chosenLocation);
-          setShowModal(true);
         } else {
-          alert("No restaurants found within 10 km.");
+          setShowAlertBoxOutLocation(true);
         }
       } else {
-        alert("Location not found.");
+        setShowAlertBox(true);
       }
     } catch (err) {
       console.error("Error fetching location:", err);
     }
   };
 
-  const handleSubmit = () => {
+  const pushToBlockchain = async (location: Location) => {
+    try {
+      const date = new Date().toISOString();
+      await fcl.mutate({
+        cadence: ADD_LOCATION_TX,
+        // @ts-expect-error: Ignore TypeScript error for 'types' or argument issues
+        args: (arg, t) => [arg(location.name, t.String), arg(date, t.String)],
+        proposer: fcl.currentUser,
+        payer: fcl.currentUser,
+        authorizations: [fcl.currentUser],
+        limit: 100,
+      });
+      // alert("Location added to blockchain!");
+    } catch (error) {
+      console.error("Error pushing to blockchain:", error);
+      // alert("Failed to add location to blockchain.");
+    }
+  };
+
+  const handleSubmit = async () => {
     if (!input.trim()) {
       alert("Please enter a location.");
       return;
     }
-    fetchLocation();
+    await fetchLocation();
+    if (selectedLocation) {
+      console.log("selectedLocation", selectedLocation);
+      try {
+        await pushToBlockchain(selectedLocation);
+        setShowModal(true);
+      } catch {
+        // alert("An error occurred while saving the location. Please try again.");
+      }
+    }
   };
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-8 relative">
       <div>
         <h1 className="text-2xl font-bold text-primary">What To Eat Today</h1>
-        <p className="text-xl font-bold text-gray-400 mb-8">Privacy Mode </p>
+        <p className="text-xl font-bold text-gray-400 mb-8">On-Chain Mode </p>
       </div>
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-4">
@@ -142,6 +197,18 @@ export default function GamePage() {
         <Modal
           location={selectedLocation}
           onClose={() => setShowModal(false)}
+        />
+      )}
+      {showAlertBox && (
+        <AlertBox
+          title="Location not found."
+          onClose={() => setShowAlertBox(false)}
+        />
+      )}
+      {showAlertBoxOutLocation && (
+        <AlertBox
+          title="No restaurants found within 10 km."
+          onClose={() => setShowAlertBoxOutLocation(false)}
         />
       )}
     </div>

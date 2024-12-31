@@ -1,0 +1,10 @@
+{
+  "contracts": {
+    "HelloWorld": {
+      "source": "./cadence/contracts/LocationLogger.cdc",
+      "aliases": {
+        "testnet": "0x70dfddf67f3be06b"
+      }
+    }
+  }
+}
