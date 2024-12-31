@@ -15,6 +15,9 @@ export default {
         border: '#D3D3D3', // Example: Light gray for borders
         background: 'var(--background)',
         foreground: 'var(--foreground)',
+      },    
+      backgroundImage: {
+        gradient: 'linear-gradient(to bottom, #fff5e6, #f5c27d)', // Light to orange gradient
       },
     },
   },

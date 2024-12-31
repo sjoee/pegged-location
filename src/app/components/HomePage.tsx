@@ -26,7 +26,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen text-center space-y-4">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient text-center space-y-4">
       {renderContent()}
       <BottomTabs activeTab={activeTab} setActiveTab={setActiveTab} />
     </div>
