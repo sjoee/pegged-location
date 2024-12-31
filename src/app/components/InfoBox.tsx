@@ -42,7 +42,7 @@ export default function InfoBox() {
         </div>
       </section>
       <section>
-        <h1 className="text-2xl font-bold mb-4 text-start text-primary">
+        <h1 className="text-2xl font-bold text-start text-primary">
           How to Try The Magic
         </h1>
         <ol className="list-decimal list-inside text-start  ">
@@ -55,6 +55,44 @@ export default function InfoBox() {
             nearby restaurants—each option a hidden gem ready to be explored.
           </li>
           <li>Head over there, and savor the magic of a great meal!</li>
+        </ol>
+
+        <ol className="list-decimal list-inside text-start mt-8">
+          <li className="flex space-x-2 flex-col mb-1">
+            <strong className="text-gray-600">🔗 Telegram Bot</strong>
+            <a
+              href="https://t.me/PeggedLocationBot/myapp"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:underline text-gray-400"
+            >
+              https://t.me/PeggedLocationBot/myapp
+            </a>
+          </li>
+
+          <li className="flex space-x-2 flex-col mb-1">
+            <strong className="text-gray-600">🔗 Web App on Telegram:</strong>
+            <a
+              href="https://t.me/PeggedLocationBot/twRPS"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:underline text-gray-400"
+            >
+              https://t.me/PeggedLocationBot/twRPS
+            </a>
+          </li>
+
+          <li className="flex space-x-2 flex-col mb-1">
+            <strong className="text-gray-600">🔗 Website:</strong>
+            <a
+              href="https://pegged-location.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:underline text-gray-400"
+            >
+              https://pegged-location.vercel.app
+            </a>
+          </li>
         </ol>
       </section>
     </div>
