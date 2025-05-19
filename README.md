@@ -1,3 +1,6 @@
+**Deriv AI Hackathon - HackQuest | Flow Foundation**
+A location based dining suggestion Telegram Mini App equiped with Telegram bots and mini apps, integrated user authentication using Telegram;s Bot API for seemless transactions. Features also include OKX Connect, Privy and FCL to build Flow Telegram MiniApps based on EVM and Cadence Dev stacks along with Telegram authentication to secure blockchain interactions for embedded wallets.
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Try It On
