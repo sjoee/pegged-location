@@ -57,3 +57,10 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ## Pegged Location Contents
 ![image](https://github.com/user-attachments/assets/9f1147e2-1b97-4cb5-b0d3-fb937b2eaf2c)
+![image](https://github.com/user-attachments/assets/60e109a9-e285-4874-bf7f-2c296b602c4d)
+![image](https://github.com/user-attachments/assets/6ce7c1fb-7a02-4a3f-a31e-5e7bff726ccd)
+![image](https://github.com/user-attachments/assets/2da8d19f-feee-493e-af71-331f8be450e7)
+![image](https://github.com/user-attachments/assets/710896af-8f36-4d6a-a155-caf6dc72b294)
+![image](https://github.com/user-attachments/assets/8f91c651-3d43-4fa0-8182-f3d2a4a19167)
+![image](https://github.com/user-attachments/assets/ccc2bc27-019b-469d-ae12-7cfbca138e9a
+
