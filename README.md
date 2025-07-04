@@ -64,11 +64,10 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 ![image](https://github.com/user-attachments/assets/8f91c651-3d43-4fa0-8182-f3d2a4a19167)
 ![image](https://github.com/user-attachments/assets/ccc2bc27-019b-469d-ae12-7cfbca138e9a)
 
-![image](https://github.com/user-attachments/assets/7fc23ac6-cbe7-46ed-9430-ac79353843bd)
+![Watch Demonstration on Mobile Device](https://github.com/user-attachments/assets/7fc23ac6-cbe7-46ed-9430-ac79353843bd)
 
-![image](https://github.com/user-attachments/assets/d9d83461-6fa5-4350-bfce-e7f1965e07c0)
+![Watch Demonstration on PC](https://github.com/user-attachments/assets/d9d83461-6fa5-4350-bfce-e7f1965e07c0)
 
-![Short Demo GIF](./rec3.mp4)
 
 
 
