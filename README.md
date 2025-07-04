@@ -64,3 +64,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 ![image](https://github.com/user-attachments/assets/8f91c651-3d43-4fa0-8182-f3d2a4a19167)
 ![image](https://github.com/user-attachments/assets/ccc2bc27-019b-469d-ae12-7cfbca138e9a)
 
+<video src="rec3.mp4" controls width="640"></video>
+<video src="redc2.mp4" controls width="640"></video>
