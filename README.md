@@ -68,7 +68,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ![image](https://github.com/user-attachments/assets/d9d83461-6fa5-4350-bfce-e7f1965e07c0)
 
-
+![Short Demo GIF](./rec3.mp4)
 
 
 
